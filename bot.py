@@ -98,6 +98,9 @@ def mute(message):
 @bot.message_handler(content_types=['text'])
 def send_text(message):
     chat_id = message.chat.id
-    #bot.send_message(chat_id, message.text)
+    if message.text in languages:
+        bot.send_message(chat_id, 'Изыди')
+    else:
+        pass
 
 bot.polling()
