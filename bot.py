@@ -1,6 +1,7 @@
 import telebot
 from config import *
 import random
+import keyboard as kb
 
 bot = telebot.TeleBot(token) # Bot init
 
@@ -20,7 +21,7 @@ def ban(message):
             #bot.send_message(chat_id, from_user)
             try:
                 bot.kick_chat_member(id, from_user)
-                bot.send_message(chat_id, 'Правосудие свершилось!\nПользователь заблокирован!')
+                bot.send_message(chat_id, 'Правосудие свершилось!\nПользователь заблокирован!', reply_markup=kb.unban)
             except Exception as e:
                 bot.send_message(chat_id, 'Произошла ошибка! Возможно пользователь являеться администратором!')
                 bot.send_message(chat_id, e)
@@ -32,22 +33,36 @@ def ban(message):
 @bot.message_handler(commands=['unban'])
 def unban(message):
     chat_id = message.chat.id
-    user = mesage.from_user.id
+    user = message.from_user.id
     if user in admins:
-        if message.reply_to_message:
+        try:
+            text = message.text
+            arg = text.split(' ')
+            bot.send_message(chat_id, 'ID:' + arg[1])
+            bot.unban_chat_member(chat_id, arg)
+            bot.send_message('Оно свершилось! Пользователь разблокирован')
+        except Exception as e:
+            bot.send_message(chat_id,'Что то пошло не так!')
+            bot.send_message(chat_id, e) 
 
-            from_user = message.reply_to_message.from_user.id
-            #bot.send_message(chat_id, from_user)
-            try:
-                bot.unban_chat_member(id, from_user)
-                bot.send_message(chat_id, 'Кто то ошибся!\nПользователь разблокирован!')
-            except Exception as e:
-                bot.send_message(chat_id, 'Произошла ошибка!    ')
-                bot.send_message(chat_id, e)
-        else:
-            bot.send_message(chat_id, 'Эта команда должна быть ответом на сообщение!')
+    #    if message.reply_to_message:
+#
+#            from_user = message.reply_to_message.from_user.id
+#            #bot.send_message(chat_id, from_user)
+#            try:
+#                bot.unban_chat_member(id, from_user)
+#                bot.send_message(chat_id, 'Кто то ошибся!\nПользователь разблокирован!')
+#            except Exception as e:
+#                bot.send_message(chat_id, 'Произошла ошибка!    ')
+#                bot.send_message(chat_id, e)
+#        else:
+#            bot.send_message(chat_id, 'Эта команда должна быть ответом на сообщение!')
     else:
         bot.send_message(chat_id, 'Вы не являетесь администратором!')
+
+
+
+
 @bot.message_handler(commands=['mute'])
 def unmute(message):
     chat_id = message.chat.id
@@ -103,6 +118,7 @@ def send_text(message):
     for i in range(0, len(other_lang)):
         if other_lang[i] in message.text.lower():
             bot.send_message(chat_id, 'Изыди')
+            break
     for i in range(0, len(top_lang)):
         if top_lang[i] in message.text.lower():
             bot.send_message(chat_id, 'Ай какой молодец!')
