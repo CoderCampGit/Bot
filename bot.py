@@ -35,7 +35,6 @@ def ban(message):
                 bot.send_message(chat_id, 'Правосудие свершилось!\nПользователь заблокирован!', reply_markup=kb.unban)
             except Exception as e:
                 bot.send_message(chat_id, 'Произошла ошибка! Возможно пользователь являеться администратором!')
-                bot.send_message(chat_id, e)
         else:
             bot.send_message(chat_id, 'Эта команда должна быть ответом на сообщение!')
     else:
@@ -54,8 +53,6 @@ def unban(message):
             bot.send_message('Оно свершилось! Пользователь разблокирован')
         except Exception as e:
             bot.send_message(chat_id,'Что то пошло не так!')
-            bot.send_message(chat_id, e)
-
     else:
         bot.send_message(chat_id, 'Вы не являетесь администратором!')
 
