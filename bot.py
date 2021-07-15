@@ -8,11 +8,11 @@ import keyboard as kb
 #---------------------
 bot = telebot.TeleBot(token) # Bot init
 
-@bot.message_handler(content_types=["new_chat_members"])
+@bot.message_handler(content_types=['new_chat_members'])
 def handler_new_member(message):
     try:
         user_name = message.from_user.first_name
-        bot.send_message(message.chat.id, "Добро пожаловать, {0}!".format(user_name) + '\nРасскажи о себе немного, какие языки программироания знаешь?')
+        bot.send_message(message.chat.id, 'Добро пожаловать, {0}!'.format(user_name) + '\nРасскажи о себе немного, какие языки программироания знаешь?')
     except:
         print('Error')
 
