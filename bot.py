@@ -113,15 +113,15 @@ def send_text(message):
     for lang in top_lang:
         if lang in msg:
             bot.reply_to(message, 'Одобряю')
-        break
+            break
     for lang in other_lang:
         if lang in msg:
             bot.reply_to(message, 'Осуждаю')
-        break
+            break
     for word in bad_words:
         if word in msg:
             bot.reply_to(message, 'Веди себя культурнее!')
-        break
+            break
     else:
         pass
 
