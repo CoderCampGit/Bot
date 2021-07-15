@@ -59,9 +59,6 @@ def unban(message):
     else:
         bot.send_message(chat_id, 'Вы не являетесь администратором!')
 
-
-
-
 @bot.message_handler(commands=['mute'])
 def unmute(message):
     chat_id = message.chat.id
@@ -107,8 +104,6 @@ def mute(message):
     else:
         bot.send_message(chat_id, 'Вы не являетесь администратором!')
 
-
-
 @bot.message_handler(content_types=['text'])
 def send_text(message):
     from_user = message.from_user.id
@@ -129,8 +124,5 @@ def send_text(message):
         break
     else:
         pass
-
-
-
 
 bot.polling()
