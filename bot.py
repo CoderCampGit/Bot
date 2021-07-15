@@ -1,14 +1,25 @@
+#Code by xIRANx and CoderCamp community
 import telebot
 from config import *
 import random
 import keyboard as kb
+#Технические списки
 
+#---------------------
 bot = telebot.TeleBot(token) # Bot init
+
+@bot.message_handler(content_types=["new_chat_members"])
+def handler_new_member(message):
+    try:
+        user_name = message.from_user.first_name
+        bot.send_message(message.chat.id, "Добро пожаловать, {0}!".format(user_name) + '\nРасскажи о себе немного, какие языки программироания знаешь?')
+    except:
+        print('Error')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
     chat_id = message.chat.id
-    bot.send_message(chat_id, 'Я работаю!')
+    bot.send_message(chat_id, 'Привет!')
 
 @bot.message_handler(commands=['ban'])
 def ban(message):
@@ -43,20 +54,8 @@ def unban(message):
             bot.send_message('Оно свершилось! Пользователь разблокирован')
         except Exception as e:
             bot.send_message(chat_id,'Что то пошло не так!')
-            bot.send_message(chat_id, e) 
+            bot.send_message(chat_id, e)
 
-    #    if message.reply_to_message:
-#
-#            from_user = message.reply_to_message.from_user.id
-#            #bot.send_message(chat_id, from_user)
-#            try:
-#                bot.unban_chat_member(id, from_user)
-#                bot.send_message(chat_id, 'Кто то ошибся!\nПользователь разблокирован!')
-#            except Exception as e:
-#                bot.send_message(chat_id, 'Произошла ошибка!    ')
-#                bot.send_message(chat_id, e)
-#        else:
-#            bot.send_message(chat_id, 'Эта команда должна быть ответом на сообщение!')
     else:
         bot.send_message(chat_id, 'Вы не являетесь администратором!')
 
@@ -114,28 +113,23 @@ def mute(message):
 def send_text(message):
     from_user = message.from_user.id
     chat_id = message.chat.id
+    msg = message.text.lower()
+    msg_id = message.message_id
+    for lang in top_lang:
+        if lang in msg:
+            bot.reply_to(message, 'Одобряю')
+        break
+    for lang in other_lang:
+        if lang in msg:
+            bot.reply_to(message, 'Осуждаю')
+        break
+    for word in bad_words:
+        if word in msg:
+            bot.reply_to(message, 'Веди себя культурнее!')
+        break
+    else:
+        pass
 
-    for i in range(0, len(other_lang)):
-        if other_lang[i] in message.text.lower():
-            bot.send_message(chat_id, 'Изыди')
-            break
-    for i in range(0, len(top_lang)):
-        if top_lang[i] in message.text.lower():
-            bot.send_message(chat_id, 'Ай какой молодец!')
-
-    for i in range(0, len(bad_words)):
-        if bad_words[i] in message.text.lower():
-            answer = random.randint(1,4)
-            if answer == 1:
-                bot.send_message(chat_id,'А ты шалун')
-            elif answer == 2:
-                bot.send_message(chat_id,'Кто как обзывается, тот так и называется!')
-            elif answer == 3:
-                bot.send_message(chat_id, 'Шя как достану ствол правосудия')
-            elif answer == 4:
-                bot.send_message(chat_id, 'Осуждаю!')
-    if 'пасть порву' in message.text.lower():
-        bot.send_message(chat_id, 'Пасть свою себе порви')
 
 
 
